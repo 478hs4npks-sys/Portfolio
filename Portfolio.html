@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Portfolio</title>
+  <style>
+    :root {
+      --bg: #000000;
+      --surface: #111113;
+      --surface-2: #1c1c1e;
+      --surface-3: #2c2c2e;
+      --border: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --text-secondary: #8e8e93;
+      --text-tertiary: #636366;
+      --red: #ff453a;
+      --green: #30d158;
+      --blue: #0a84ff;
+      --purple: #5e5ce6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .phone {
+      width: 100%;
+      max-width: 390px;
+      min-height: 100vh;
+      background: var(--bg);
+      position: relative;
+      padding-bottom: 100px;
+      box-shadow: 0 0 80px rgba(0,0,0,0.8);
+    }
+
+    /* Status bar */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 22px 6px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .status-right svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px 6px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      transition: background 0.15s;
+    }
+
+    .icon-btn:active {
+      background: var(--surface-3);
+    }
+
+    .icon-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .badge-wrap {
+      position: relative;
+    }
+
+    .badge-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: #ff3b30;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid var(--bg);
+    }
+
+    /* Balance */
+    .balance-section {
+      padding: 12px 20px 0;
+    }
+
+    .balance-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .balance {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      line-height: 1.05;
+    }
+
+    .rewards {
+      background: linear-gradient(135deg, #1c1c1e 0%, #252528 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 7px 12px 7px 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      margin-top: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .rewards .diamond {
+      color: var(--purple);
+      font-size: 13px;
+    }
+
+    .change-row {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .change-value {
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .change-period {
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    /* Chart */
+    .chart-wrap {
+      position: relative;
+      height: 210px;
+      margin: 16px 0 2px;
+    }
+
+    .chart-wrap svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Timeline */
+    .timeline {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 16px 20px;
+      gap: 4px;
+    }
+
+    .timeline button {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 8px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .timeline button.active {
+      color: #fff;
+      background: var(--surface-2);
+      font-weight: 600;
+    }
+
+    /* Promo card */
+    .promo {
+      margin: 0 16px 18px;
+      background: linear-gradient(145deg, #1a1a1c 0%, #141416 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px 16px 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promo::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+    }
+
+    .promo-text h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      letter-spacing: -0.2px;
+    }
+
+    .promo-text p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .promo-visual {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(145deg, #252528, #1c1c1e);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+
+    .promo-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--text-tertiary);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Holdings */
+    .holdings {
+      margin: 0 16px;
+      background: var(--surface);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .holding {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .holding:last-child {
+      border-bottom: none;
+    }
+
+    .holding-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .holding-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .holding-icon.crypto {
+      background: linear-gradient(145deg, #1e1b4b, #1e293b);
+      border: 1px solid rgba(94,92,230,0.3);
+      color: #a5b4fc;
+    }
+
+    .holding-icon.cash {
+      background: linear-gradient(145deg, #052e16, #14532d);
+      border: 1px solid rgba(48,209,88,0.3);
+      color: #86efac;
+    }
+
+    .holding-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .holding-name {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .holding-sub {
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .holding-value {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    /* Action buttons */
+    .actions {
+      display: flex;
+      gap: 12px;
+      padding: 22px 16px 8px;
+    }
+
+    .btn {
+      flex: 1;
+      height: 52px;
+      border-radius: 26px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+      transition: transform 0.1s, opacity 0.1s;
+      letter-spacing: -0.2px;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: var(--surface-2);
+      color: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #1a8fff 0%, #0070e0 100%);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(10,132,255,0.4);
+    }
+
+    /* Bottom nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 390px;
+      background: rgba(18,18,20,0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 28px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: var(--text-tertiary);
+      font-size: 10px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 10px;
+      font-family: inherit;
+      transition: color 0.15s;
+    }
+
+    .nav-item.active {
+      color: #fff;
+    }
+
+    .nav-item svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .watchlist-hint {
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 13px;
+      padding: 4px 0 2px;
+      font-weight: 500;
+    }
+
+    .chart-wrap{touch-action:pan-y;user-select:none}
+    .scrub-label{position:absolute;top:-6px;left:0;font-size:12px;color:var(--text-secondary);opacity:0;transition:opacity .12s;white-space:nowrap;font-weight:500;pointer-events:none}
+    .balance{font-variant-numeric:tabular-nums}
+
+    .phone{padding-top:14px}
+    .page{display:none}.page.active{display:block}
+    .pt{font-size:30px;font-weight:700;letter-spacing:-.6px;padding:14px 20px 10px}
+    .sec{font-size:13px;color:var(--text-secondary);font-weight:600;padding:16px 20px 6px}
+    .search{margin:4px 16px 4px;background:var(--surface-2);border-radius:12px;padding:11px 14px;color:var(--text-tertiary);font-size:15px}
+    .row{display:flex;align-items:center;gap:12px;padding:12px 20px}
+    .av{width:40px;height:40px;border-radius:50%;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .rt{flex:1;display:flex;flex-direction:column;gap:2px}.rr{display:flex;flex-direction:column;gap:2px;text-align:right}
+    .rt b,.rr b{font-size:15.5px;font-weight:600}.rt span,.rr span{font-size:13px;color:var(--text-secondary)}
+    .mk{margin:8px 16px;background:var(--surface-2);border-radius:16px;padding:14px}
+    .mq{font-size:15px;font-weight:600;margin-bottom:12px}.mb{display:flex;gap:8px}
+    .mb button{flex:1;border:none;border-radius:10px;padding:11px;font:600 14px inherit;font-family:inherit;cursor:pointer}
+    .yes{background:rgba(48,209,88,.16);color:var(--green)}.no{background:rgba(255,69,58,.16);color:var(--red)}
+    .ccard{margin:8px 16px;height:200px;border-radius:20px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,#0a84ff,#5e5ce6 60%,#2b1f6b);box-shadow:0 10px 30px rgba(10,132,255,.25)}
+    .cc-top,.cc-bot{display:flex;justify-content:space-between;font-weight:600}.cc-num{font-size:20px;letter-spacing:2px;font-weight:600}.cc-bot{font-size:13px;opacity:.85}
+    .amt{font-size:64px;font-weight:700;text-align:center;padding:40px 0 6px;letter-spacing:-2px}.sub2{text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:20px}
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="page active" id="page-home">
+    <!-- Header -->
+    <div class="header">
+      <button class="icon-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="header-right">
+        <button class="icon-btn" aria-label="Scan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Transfer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+        </button>
+        <div class="badge-wrap">
+          <button class="icon-btn" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          </button>
+          <div class="badge-dot">9+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Balance -->
+    <div class="balance-section">
+      <div class="balance-top">
+        <div class="balance">$845,098.72</div>
+        <div class="rewards">
+          <span class="diamond">◆</span> Nov Rewards
+        </div>
+      </div>
+      <div class="change-row">
+        <div class="change-value">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor"><path d="M6 9.5L1.5 4h9L6 9.5z"/></svg>
+          $511,200 (38.6%)
+        </div>
+        <span class="change-period">1M ›</span>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-wrap" id="chart">
+      <svg id="chartSvg" viewBox="0 0 390 210"></svg>
+      <div class="scrub-label" id="scrubLabel"></div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <button>1H</button>
+      <button>24H</button>
+      <button>1W</button>
+      <button class="active">1M</button>
+      <button>1Y</button>
+      <button>ALL</button>
+    </div>
+
+    <!-- Promo -->
+    <div class="promo">
+      <div class="promo-text">
+        <h3>Your lending rate went up</h3>
+        <p>Earn 5.90% for a limited time<br>when you lend USDC.</p>
+      </div>
+      <div class="promo-visual">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+          <rect x="4" y="20" width="7" height="10" rx="1.5" fill="#5e5ce6" opacity="0.85"/>
+          <rect x="13.5" y="13" width="7" height="17" rx="1.5" fill="#5e5ce6"/>
+          <rect x="23" y="6" width="7" height="24" rx="1.5" fill="#0a84ff"/>
+          <circle cx="26.5" cy="9" r="5.5" fill="#0a84ff"/>
+          <text x="26.5" y="12" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="system-ui">$</text>
+        </svg>
+      </div>
+      <button class="promo-close">✕</button>
+    </div>
+
+    <!-- Holdings -->
+    <div class="holdings">
+      <div class="holding">
+        <div class="holding-left">
+          <div class="holding-icon crypto">⬡</div>
+          <div class="holding-info">
+            <div class="holding-name">Crypto</div>
+          </div>
+        </div>
+        <div class="holding-value">$812,379.44</div>
+      </div>
+      <div class="holding">
+        <div class="holding-left">
+          <div class="holding-icon cash">$</div>
+          <div class="holding-info">
+            <div class="holding-name">Cash</div>
+            <div class="holding-sub">3.75% APY</div>
+          </div>
+        </div>
+        <div class="holding-value">$32,719.28</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn btn-secondary">Deposit</button>
+      <button class="btn btn-primary">Buy & sell</button>
+    </div>
+
+    <div class="watchlist-hint" id="toTrade" style="cursor:pointer">Watchlist →</div>
+    </div>
+
+    <div class="page" id="page-trade"><h1 class="pt">Trade</h1><div class="search">Search assets</div>
+      <div class="sec">Top assets</div><div class="row"><div class="av">B</div><div class="rt"><b>Bitcoin</b><span>BTC</span></div><div class="rr"><b>$87,412.30</b><span style="color:var(--red)">-2.4%</span></div></div><div class="row"><div class="av">E</div><div class="rt"><b>Ethereum</b><span>ETH</span></div><div class="rr"><b>$2,941.18</b><span style="color:var(--red)">-3.1%</span></div></div><div class="row"><div class="av">S</div><div class="rt"><b>Solana</b><span>SOL</span></div><div class="rr"><b>$132.64</b><span style="color:var(--red)">-4.8%</span></div></div><div class="row"><div class="av">U</div><div class="rt"><b>USD Coin</b><span>USDC</span></div><div class="rr"><b>$1.00</b><span style="color:var(--green)">+0.0%</span></div></div><div class="row"><div class="av">X</div><div class="rt"><b>XRP</b><span>XRP</span></div><div class="rr"><b>$2.07</b><span style="color:var(--green)">+1.3%</span></div></div><div class="row"><div class="av">D</div><div class="rt"><b>Dogecoin</b><span>DOGE</span></div><div class="rr"><b>$0.1386</b><span style="color:var(--red)">-1.9%</span></div></div></div>
+    <div class="page" id="page-predict"><h1 class="pt">Predict</h1><div class="sec">Trending markets</div>
+      <div class="mk"><div class="mq">Fed cuts rates in December?</div><div class="mb"><button class="yes">Yes 71¢</button><button class="no">No 29¢</button></div></div><div class="mk"><div class="mq">BTC above $90k by Dec 31?</div><div class="mb"><button class="yes">Yes 38¢</button><button class="no">No 62¢</button></div></div><div class="mk"><div class="mq">ETH above $3,000 this week?</div><div class="mb"><button class="yes">Yes 44¢</button><button class="no">No 56¢</button></div></div></div>
+    <div class="page" id="page-card"><h1 class="pt">Credit card</h1>
+      <div class="ccard"><div class="cc-top"><span>◆</span><span>Visa</span></div><div class="cc-num">•••• •••• •••• 4821</div><div class="cc-bot"><span>Cardholder</span><span>12/29</span></div></div>
+      <div class="sec">This month</div>
+      <div class="row"><div class="rt"><b>Rewards earned</b><span>Up to 4% back in crypto</span></div><div class="rr"><b>$128.40</b></div></div>
+      <div class="row"><div class="rt"><b>Statement balance</b><span>Due Dec 14</span></div><div class="rr"><b>$1,942.07</b></div></div>
+      <div class="actions"><button class="btn btn-secondary">Freeze</button><button class="btn btn-primary">Pay bill</button></div></div>
+    <div class="page" id="page-pay"><h1 class="pt">Pay</h1>
+      <div class="amt">$0</div><div class="sub2">Cash available: $32,719.28</div>
+      <div class="actions"><button class="btn btn-secondary">Request</button><button class="btn btn-primary">Send</button></div>
+      <div class="sec">Recent</div>
+      <div class="row"><div class="av">A</div><div class="rt"><b>Alex</b><span>Sent · Nov 18</span></div><div class="rr"><b>-$40.00</b></div></div>
+      <div class="row"><div class="av">M</div><div class="rt"><b>Maya</b><span>Received · Nov 12</span></div><div class="rr"><b style="color:var(--green)">+$125.00</b></div></div></div>
+
+  </div>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <button class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Home
+    </button>
+    <button class="nav-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      Trade
+    </button>
+    <button class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+      Predict
+    </button>
+    <button class="nav-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+      Credit card
+    </button>
+    <button class="nav-item">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      Pay
+    </button>
+  </nav>
+
+<script>
+(function(){
+  const END=845098.72, W=390, H=210, PAD_T=18, PAD_B=26;
+  const svg=document.getElementById('chartSvg'), label=document.getElementById('scrubLabel');
+  const balEl=document.querySelector('.balance'), chEl=document.querySelector('.change-value'), perEl=document.querySelector('.change-period');
+  const fmt=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const fmt0=n=>'$'+Math.round(n).toLocaleString('en-US');
+  // range: points, total % change, volatility, label formatter
+  const R={
+    '1H':{n:60,pct:-0.4,vol:.0007,seed:11,fmt:i=>(60-i)+'m ago'},
+    '24H':{n:96,pct:-2.1,vol:.0022,seed:22,fmt:i=>Math.round((95-i)*15/60*10)/10+'h ago'},
+    '1W':{n:168,pct:-9.8,vol:.0038,seed:33,fmt:i=>Math.round((167-i)/24*10)/10+'d ago'},
+    '1M':{n:180,pct:-38.6,vol:.0075,seed:44,fmt:i=>{const d=new Date();d.setHours(d.getHours()-Math.round((179-i)*4));return d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}},
+    '1Y':{n:200,pct:62.4,vol:.02,seed:55,fmt:i=>{const d=new Date();d.setDate(d.getDate()-Math.round((199-i)*1.83));return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}},
+    'ALL':{n:220,pct:410,vol:.035,seed:66,fmt:i=>{const d=new Date();d.setDate(d.getDate()-Math.round((219-i)*14));return d.toLocaleDateString('en-US',{month:'short',year:'numeric'})}}
+  };
+  function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function gauss(r){return Math.sqrt(-2*Math.log(r()||1e-9))*Math.cos(2*Math.PI*r())}
+  function series(c){
+    const r=rng(c.seed),n=c.n,lr=Math.log(1+c.pct/100);
+    // random walk with fat-tail jumps and volatility clustering, pinned to target by a bridge
+    let x=0,v=c.vol,w=[0];
+    for(let i=1;i<n;i++){
+      v=Math.max(c.vol*.5,Math.min(c.vol*2.2,v*.9+c.vol*.1+Math.abs(gauss(r))*c.vol*.12));
+      let step=gauss(r)*v; if(r()<.04)step*=3.2;
+      x+=step; w.push(x);
+    }
+    const out=w.map((p,i)=>Math.exp(p-(i/(n-1))*(w[n-1]-lr)));
+    const end=out[n-1];return out.map(p=>p/end*END);
+  }
+  let cur='1M',data=[],px=[],py=[];
+  function draw(){
+    const c=R[cur];data=series(c);
+    const mn=Math.min(...data),mx=Math.max(...data),span=(mx-mn)||1;
+    px=data.map((_,i)=>i/(data.length-1)*W);
+    py=data.map(p=>PAD_T+(1-(p-mn)/span)*(H-PAD_T-PAD_B));
+    const up=data[data.length-1]>=data[0];
+    const col=up?'#30d158':'#ff453a';
+    const line=px.map((x,i)=>(i?'L':'M')+x.toFixed(1)+','+py[i].toFixed(1)).join('');
+    svg.innerHTML=`<defs>
+      <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".22"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient>
+    </defs>
+    <line x1="0" x2="${W}" y1="${py[0].toFixed(1)}" y2="${py[0].toFixed(1)}" stroke="rgba(255,255,255,.18)" stroke-width="1" stroke-dasharray="1 4" stroke-linecap="round"/>
+    <path d="${line}L${W},${H}L0,${H}Z" fill="url(#ag)" opacity=".7"/>
+    <path d="${line}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <g id="cur" style="display:none"><line id="cl" y1="${PAD_T-6}" y2="${H-PAD_B+10}" stroke="rgba(255,255,255,.35)" stroke-width="1"/><circle id="cd" r="5" fill="${col}" stroke="#000" stroke-width="2"/></g>
+    <circle id="endDot" cx="${px[px.length-1]-4}" cy="${py[py.length-1]}" r="3.5" fill="${col}"/>`;
+    update(data.length-1,false);
+  }
+  function update(i,scrub){
+    const val=data[i],base=data[0],d=val-base,p=d/base*100,up=d>=0,col=up?'var(--green)':'var(--red)';
+    balEl.textContent=fmt(val);
+    chEl.style.color=col;
+    chEl.innerHTML=`<svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" style="transform:${up?'rotate(180deg)':'none'}"><path d="M6 9.5L1.5 4h9L6 9.5z"/></svg> ${fmt0(Math.abs(d))} (${Math.abs(p).toFixed(1)}%)`;
+    perEl.textContent=scrub?R[cur].fmt(i):cur+' \u203A';
+    const g=svg.querySelector('#cur'),dot=svg.querySelector('#endDot');
+    if(scrub){g.style.display='';dot.style.display='none';svg.querySelector('#cl').setAttribute('x1',px[i]);svg.querySelector('#cl').setAttribute('x2',px[i]);const cd=svg.querySelector('#cd');cd.setAttribute('cx',px[i]);cd.setAttribute('cy',py[i]);}
+    else{g.style.display='none';dot.style.display='';}
+  }
+  const wrap=document.getElementById('chart');
+  function move(e){
+    const b=wrap.getBoundingClientRect();
+    const i=Math.max(0,Math.min(data.length-1,Math.round((e.clientX-b.left)/b.width*(data.length-1))));
+    update(i,true);
+  }
+  wrap.addEventListener('pointerdown',e=>{wrap.setPointerCapture(e.pointerId);move(e)});
+  wrap.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='mouse')move(e)});
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>wrap.addEventListener(t,()=>update(data.length-1,false)));
+  document.querySelectorAll('.timeline button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.timeline button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');cur=b.textContent.trim();draw();
+  }));
+  draw();
+})();
+</script>
+<script>
+(function(){
+  const items=[...document.querySelectorAll('.nav-item')],ids=['home','trade','predict','card','pay'];
+  function go(k){
+    document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+k));
+    items.forEach((n,i)=>n.classList.toggle('active',ids[i]===k));
+    window.scrollTo(0,0);
+  }
+  items.forEach((n,i)=>n.addEventListener('click',()=>go(ids[i])));
+  document.getElementById('toTrade').addEventListener('click',()=>go('trade'));
+  document.querySelectorAll('#page-home .btn-primary').forEach(b=>b.addEventListener('click',()=>go('trade')));
+  document.querySelector('.promo-close').addEventListener('click',e=>e.target.closest('.promo').style.display='none');
+  document.querySelector('[aria-label="Transfer"]').addEventListener('click',()=>go('pay'));
+  document.querySelector('.actions .btn-secondary').addEventListener('click',()=>go('pay'));
+})();
+</script>
+</body>
+</html>
